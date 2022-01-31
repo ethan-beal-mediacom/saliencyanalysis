@@ -1,3 +1,13 @@
+#' Produce Salience heatmap from Raw MSI Net output
+#'
+#' @param saliency_files_directory
+#' @param raw_image_directory
+#' @param output_directory
+#'
+#' @return jpeg where heatmap is overlayed origninal creative
+#' @export
+#'
+#' @examples
 saliency_heatmap <- function(saliency_files_directory, raw_image_directory, output_directory){
 
   ####### loop
