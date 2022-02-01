@@ -7,14 +7,21 @@
 saliency_heatmap(
   saliency_files_directory,
   raw_image_directory,
-  output_directory
+  output_directory,
+  output_only = FALSE
 )
 }
 \arguments{
-\item{output_directory}{}
+\item{saliency_files_directory}{path to directory where raw MSI Net output is found}
+
+\item{raw_image_directory}{path to directory where raw creatives are found}
+
+\item{output_directory}{path to directory you want the heatmaps outputed into}
+
+\item{output_only}{logical. if TRUE all other edits are deleted and only final heatmap is kept}
 }
 \value{
-jpeg where heatmap is overlayed origninal creative
+jpeg where heatmap is overlayed original creative
 }
 \description{
 Produce Salience heatmap from Raw MSI Net output

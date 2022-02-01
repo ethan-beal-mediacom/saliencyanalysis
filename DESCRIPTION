@@ -6,12 +6,20 @@ Authors@R:
            comment = c(ORCID = "YOUR-ORCID-ID"))
 Description: What the package does (one paragraph).
 License: MIT + file LICENSE
+URL: https://github.com/ethan-beal-mediacom/saliencyanalysis
+BugReports: https://github.com/ethan-beal-mediacom/saliencyanalysis/issues
+Imports: 
+    dplyr,
+    ggplot2,
+    magick,
+    methods,
+    png,
+    raster,
+    RColorBrewer
+Suggests: 
+    testthat (>= 3.0.0)
+Config/testthat/edition: 3
 Encoding: UTF-8
 LazyData: true
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.1.2
-URL: https://github.com/ethan-beal-mediacom/saliencyanalysis
-BugReports: https://github.com/ethan-beal-mediacom/saliencyanalysis/issues
-Suggests: 
-    testthat (>= 3.0.0)
-Config/testthat/edition: 3

@@ -1,14 +1,15 @@
 #' Produce Salience heatmap from Raw MSI Net output
 #'
-#' @param saliency_files_directory
-#' @param raw_image_directory
-#' @param output_directory
+#' @param saliency_files_directory path to directory where raw MSI Net output is found
+#' @param raw_image_directory path to directory where raw creatives are found
+#' @param output_directory path to directory you want the heatmaps outputed into
+#' @param output_only logical. if `TRUE` all other edits are deleted and only final heatmap is kept
 #'
-#' @return jpeg where heatmap is overlayed origninal creative
+#' @return jpeg where heatmap is overlayed original creative
 #' @export
 #'
 #' @examples
-saliency_heatmap <- function(saliency_files_directory, raw_image_directory, output_directory){
+saliency_heatmap <- function(saliency_files_directory, raw_image_directory, output_directory, output_only = FALSE){
 
   ####### loop
 
@@ -25,24 +26,24 @@ saliency_heatmap <- function(saliency_files_directory, raw_image_directory, outp
       ## saliency image - SI
       filenameSI<- saliency_files[i]
       imagename <- imagenames[i]  # identify image name for later use
-      rSI <- raster(filenameSI) # read in file
-      rSI_spdf <- as(rSI, "SpatialPixelsDataFrame")
+      rSI <- raster::raster(filenameSI) # read in file
+      rSI_spdf <- methods::as(rSI, "SpatialPixelsDataFrame")
       rSI_df <- as.data.frame(rSI_spdf) # make into df
       colnames(rSI_df) <- c("value", "x", "y")
 
 
       ## background image - BI
       filenameBI <- raw_image_files[i]
-      rBI <- stack(filenameBI) # as it is in colour read it in as a stack
+      rBI <- raster::stack(filenameBI) # as it is in colour read it in as a stack
       #plotRGB(rBI,r=1,g=2,b=3, stretch = "lin") # plot for sanity check
-      rBI_spdf <- as(rBI, "SpatialPixelsDataFrame")
+      rBI_spdf <- methods::as(rBI, "SpatialPixelsDataFrame")
       rBI_df <- as.data.frame(rBI_spdf)
       # remove alpha column if there is one
       if(ncol(rBI_df) == 6){
         rBI_df = rBI_df[,-4]
       }
       colnames(rBI_df) <- c("band1", "band2", "band3", "x", "y")
-      rBI_df <- rBI_df %>% mutate(bw = (band1 + band2 + band3)/3)
+      rBI_df <- rBI_df %>% dplyr::mutate(bw = (band1 + band2 + band3)/3)
 
 
       ## make plots
@@ -156,9 +157,13 @@ saliency_heatmap <- function(saliency_files_directory, raw_image_directory, outp
 
 
     })
-  }
 
-  else{
+    if(output_only == TRUE){
+      unlink(paste0(output_directory, "/1_raw"), recursive = TRUE)
+      unlink(paste0(output_directory, "/2_resize"), recursive = TRUE)
+      unlink(paste0(output_directory, "/3_fade"), recursive = TRUE)
+    }
+  }else{
     print("error accessing saliency or raw image files")
   }
 
